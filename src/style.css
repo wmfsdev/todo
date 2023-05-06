@@ -4,22 +4,20 @@
 }
 
 body {
-  
     height: 100vh;
 }
 
 form input {
     display: flex;
     flex-direction: column;
- 
 }
+
 form {
     width: fit-content;
 }
 
 .container {
     height: 100%;
-    
     background-color: aliceblue;
 }
 
@@ -37,7 +35,6 @@ form {
 }
 
 .sidebar {
-    
     width: 250px;
     padding-left: 10px;
     background-color: rgb(194 212 212);
@@ -48,7 +45,6 @@ h1 {
 }
 
 .test {
-    
     height: 100%;
     padding: 10px;
     display: flex;
@@ -58,7 +54,13 @@ h1 {
 
 .data {
     height: 350px;
-    width: 250px;
+    width: 250px;padding: 10px;
     border-radius: 5px;
     background-color: rgb(179, 156, 130);
+}
+
+.project {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
 }

@@ -1,23 +1,25 @@
 
+
 const todoFactory = (title, desc, due, priority) => {
-   
     return { title, desc }
 }
 
+const projectFactory = (title) => {
+    return { title }
+}
 
-const Collection = (title, todo, id) => {
+
+const Collection = (data, id) => {
     let stuff = [];
     let object = {}
-    
    // 
     return {
-        title,
-        todo,
+        data,
         id
     }
 }
 
-export { todoFactory, Collection }
+export { todoFactory, projectFactory, Collection }
 
 // const createUUID = () => self.crypto.randomUUID()
 

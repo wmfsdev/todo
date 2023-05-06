@@ -1,5 +1,5 @@
 import './style.css';
-import { todoFactory, Collection }  from './factories.js'
+import { todoFactory, projectFactory, Collection }  from './factories.js'
 import pubsub from './pubsub.js'
 import initialRender from './dom.js'
 
@@ -7,6 +7,9 @@ import initialRender from './dom.js'
 document.addEventListener('DOMContentLoaded', () => {
     initialRender()
 })
+
+let projects = []
+let projectTodos = []
 
 //-- FORMS --
 //-- BUTTONS --
@@ -17,8 +20,6 @@ document.querySelector('#form').addEventListener('submit', (e) => {
     const todo = createTodo(formData)
     const collectTodo = assignCollection(todo)
     pushToCollection(collectTodo)
-
-    //renderDom()
 })
 
 document.querySelector('#project-form').addEventListener('submit', (e) => {
@@ -29,35 +30,27 @@ document.querySelector('#project-form').addEventListener('submit', (e) => {
 })
 
 // --------
-//let todos = []
-
-let projectTodos = []
-
 
 const createUUID = () => self.crypto.randomUUID()
 
 function assignCollection(todo) {
-    const project = Collection('hey', todo, createUUID())
-//  console.log(project)
+    const project = Collection(todo, createUUID())
     return project
 }
 
 function pushToCollection(collectTodo) {
     projectTodos.push(collectTodo)
     pubsub.publish('todoAdded', projectTodos)
- // console.log(projectTodos)
 }
 
 function createTodo(formData) {  
     const todo = todoFactory(formData.get('title'), formData.get('desc'))
- // formData.get('title')
     return todo
 }
 
-
-// function createProject(projectData) {
-//     const project = projectsFactory(projectData.get('title'))
-//     console.log(project.title)
-// }
+function createProject(projectData) {
+    const project = projectFactory(projectData.get('title'))
+    console.log(project.title)
+}
 
 export default projectTodos
