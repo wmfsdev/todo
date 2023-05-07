@@ -1,8 +1,5 @@
 
-//import projectTodos from "."
 import pubsub from "./pubsub"
-
-// import projectTodos from "./index.js"
 
 // const stuff = {
 //     list: [],
@@ -20,16 +17,16 @@ const initialRender = () => {
     div.textContent = "default project"
     project.prepend(div)
 
-    pubsub.subscribe('defaultProject', )
+    pubsub.subscribe('defaultProject', )// will render
+    // the project title based on pub/sub )
     pubsub.subscribe('todoAdded', rendering.renderTodo)
     pubsub.subscribe('todoAdded', rendering.populateTodo)
 }
 
 const rendering = {
- // array: [],
   renderTodo: projectTodos => {
-   console.log(projectTodos)
-   console.log(projectTodos[0].data.title)
+  // console.log(projectTodos)
+  //  console.log(projectTodos[0].data.title)
       const ele = document.querySelector('.test')
       while (ele.firstChild) {   
       ele.removeChild(ele.firstChild)               // clear display
@@ -40,8 +37,6 @@ const rendering = {
         ele.appendChild(test)
         test.dataset.id = el.id
       })
-      // array.push(projectTodos)
-      // console.log(array)
   },
   populateTodo: projectTodos => {
     let ids = ''
@@ -66,23 +61,3 @@ export default initialRender
 // bunch of different render methods
 // addTodo
 // removeTodo
-
-
-
-
-// BACKUP
-
-// const renderTodo = (projectTodos) => {
-//   console.log(projectTodos)
-//   console.log(projectTodos[0].todo.title)
-//     const ele = document.querySelector('.test')
-//     while (ele.firstChild) {   
-//     ele.removeChild(ele.firstChild)                 // clear display
-//     }
-//     projectTodos.forEach(el => {                    // re-populate with array members
-//         const test = document.createElement('div')  // create divs per member
-//         test.classList.add('data')
-//         ele.appendChild(test)
-//         test.dataset.id = el.id
-//     })
-// }

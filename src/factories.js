@@ -5,21 +5,23 @@ const todoFactory = (title, desc, due, priority) => {
 }
 
 const projectFactory = (title) => {
-    return { title }
+    let stuff = []
+    // could I create a public method that allows 
+    // us to push to the array so as to keep the
+    // array private?
+    return { title, stuff }
 }
 
-
 const Collection = (data, id) => {
-    let stuff = [];
-    let object = {}
-   // 
     return {
         data,
-        id
+        id,
     }
 }
 
 export { todoFactory, projectFactory, Collection }
+
+
 
 // const createUUID = () => self.crypto.randomUUID()
 
