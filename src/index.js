@@ -37,16 +37,11 @@ document.querySelector('.logger').addEventListener('click', (e) => {
      console.log(projectCreation.projects)
 })
 
-
 document.querySelector(".project").addEventListener("click", function(e) {
 	if(e.target.dataset.action === "delete") {
-		console.log('hey'); // 
+		console.log('hey');
 	}
 });
-
-// document.getElementById('.remove-button').addEventListener('click', (e) => {
-//     console.log('hey')
-// })
 
 
 const todoCreation = {
@@ -71,7 +66,6 @@ const createUUID = () => self.crypto.randomUUID()
 
 function assignCollection(object) {
     const collectable = Collection(object, createUUID())
-    // console.log(collectable.data.stuff)
     return collectable
 }   // turn todo/project into object and assign an ID
 
@@ -90,7 +84,6 @@ const projectCreation = {
 
     createProject: projectData => {
         const project = projectFactory(projectData.get('title'))
-        // console.log(project)
         return project
     },
 
@@ -98,9 +91,6 @@ const projectCreation = {
         projectCreation.projects.push(newProject)
         projectCreation.lastCreatedIndex = projectCreation.projects.length - 1
         pubsub.publish('newProject', newProject)
-        
-        //console.log(newProject)
-        // console.log(projectCreation.lastCreatedIndex)
     },
 
     clearProjectTodos: () => {
@@ -138,8 +128,6 @@ export default todoCreation.projectTodos
 //     console.log(project.title)
 //     return project
 // }
-
-
 
 
 

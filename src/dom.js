@@ -28,7 +28,6 @@ const initialRender = () => {
     const copy = document.importNode(projectTemp, true)
     document.querySelector('.project').prepend(copy)
 
-    
    // pubsub.subscribe('newProject', rendering.clearTodo)
     pubsub.subscribe('newProject', rendering.renderProject)
     // will render the project title based on pub/sub )
@@ -41,12 +40,11 @@ const rendering = {
   
   renderProject: newProject => {
     rendering.clearProject()
-
     const projectTemp = document.querySelector('.project-temp').content
     const copy = document.importNode(projectTemp, true)
     document.querySelector('.project').prepend(copy)
-
     document.querySelector('.project-title').textContent = newProject.data.title
+
     console.log(projectTemp)
     console.log(copy)
     // const project = document.querySelector('.project')
@@ -69,14 +67,17 @@ const rendering = {
   },
 
   clearTodo: () => {
-    const ele = document.querySelector('.todo') // this and clearProject same thing
-    while (ele.firstChild) {   
-    ele.removeChild(ele.firstChild)
+    const todoContainer = document.querySelector('.todo-container')
+    const todo = document.querySelectorAll('.todo')
+    if (todoContainer.children.length > 1) {
+      todo.forEach(el => {
+        todoContainer.removeChild(el)
+      })  
     }
   },
 
   renderTodo: projectTodos => {
-   // rendering.clearTodo() // clear display
+  rendering.clearTodo() // clear display
    console.log(projectTodos)
     projectTodos.forEach(el => {
       const tempTodo = document.querySelector('.todo-temp').content
@@ -110,6 +111,19 @@ const rendering = {
 }
 
 
+export default initialRender
+
+
+
+// query all data divs, then loop through array, if div's dataset matches 
+    // object id render rest of the objects property/values in that div
+
+// bunch of different render methods
+// addTodo
+// removeTodo
+
+// OLD CODE
+
 // rendering.clearTodo()                         // clear display
 // const ele = document.querySelector('.todo')
 // projectTodos.forEach(el => {                  // re-populate with array members
@@ -118,14 +132,3 @@ const rendering = {
 //   ele.appendChild(test)
 //   test.dataset.id = el.id
 // })
-
-
-// query all data divs, then loop through array, if div's dataset matches 
-    // object id render rest of the objects property/values in that div
-
-export default initialRender
-
-
-// bunch of different render methods
-// addTodo
-// removeTodo
