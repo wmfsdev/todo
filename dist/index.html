@@ -42,7 +42,19 @@
                 <button class="logger">log</button>
             </div>
             <div class="project">
-                <div class="test">
+                <template class="project-temp">
+                    <div class="project-info">
+                        <h2 class="project-title">default project</h2>
+                        <button class="remove-button" data-action="delete">remove project</button>
+                    </div>
+                </template> 
+                <div class="todo-container">
+                    <template class="todo-temp">
+                        <div class="todo"> 
+                            <p class="todo-title"></p>
+                        </div> 
+                    </template>
+                </div>
             </div>
             </div>
         </div>

@@ -44,8 +44,8 @@ h1 {
     margin: 0px;
 }
 
-.test {
-    height: 100%;
+.todo {
+    
     padding: 10px;
     display: flex;
     gap: 10px;
@@ -63,8 +63,23 @@ h1 {
     display: flex;
     flex-direction: column;
     padding-left: 10px;
+    width: 100%
+}
+
+.project-info {
+    display: flex;
+    padding: 10px;
+}
+
+.remove-button {
+    color: black;
+    margin-left: auto;
 }
 
 .logger {
     height: fit-content
+}
+
+h2 {
+    color:blue
 }

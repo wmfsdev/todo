@@ -23,7 +23,6 @@ export { todoFactory, projectFactory, Collection }
 
 
 
-// const createUUID = () => self.crypto.randomUUID()
 
 // const projectsFactory = (title='default', _id=createUUID()) => {
 //     let stuff = [];
