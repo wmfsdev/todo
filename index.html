@@ -18,10 +18,10 @@
                     <form action="" id="form">
                         <fieldset>
                             <label for="title">TITLE</label>
-                            <input type="text" id="title" name="title" value="lorem">
+                            <input type="text" id="title" name="title" value="this">
                             
                             <label for="desc">DESCRIPTION</label>
-                            <input type="text" name="desc" id="desc" value="ipsum">
+                            <input type="text" name="desc" id="desc" value="todo">
                         </fieldset>
                     
                         <input type="submit" value="NEW TODO"/>
@@ -33,7 +33,7 @@
         <form action="" id="project-form">
             <fieldset>
                 <label for="title">TITLE</label>
-                <input type="text" id="title" name="title" value="lorem">
+                <input type="text" id="title" name="title" value="project">
             </fieldset>
         
             <input type="submit" value="NEW PROJECT"/>
@@ -45,14 +45,29 @@
                 <template class="project-temp">
                     <div class="project-info">
                         <h2 class="project-title">default project</h2>
-                        <button class="remove-button" data-action="delete">remove project</button>
+                        <button class="remove-button" data-action="delete-project">remove project</button>
                     </div>
                 </template> 
                 <div class="todo-container">
                     <template class="todo-temp">
                         <div class="todo"> 
                             <p class="todo-title"></p>
+                            <button class="edit-todo" data-action="edit-todo">remove todo</button>
                         </div> 
+                    </template>
+                </div>
+                <div class="edit-container">
+                    <template class="edit-temp">
+                        <div class="edit-footer">
+                            <form action="" id="edit-form">
+                                <fieldset>
+                                    <label for="update-title">NEW TITLE</label>
+                                    <input type="text" id="update-title" name="update-title" value="enter new title">
+                                </fieldset>
+                            
+                                <input class="update-title" type="submit" data-action="save-todo-changes" value="SAVE CHANGES"/>
+                            </form>
+                        </div>
                     </template>
                 </div>
             </div>
