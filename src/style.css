@@ -69,11 +69,13 @@ h1 {
 .project-info {
     display: flex;
     padding: 10px;
+    align-items: center;
 }
 
 .remove-button {
     color: black;
     margin-left: auto;
+    height: fit-content
 }
 
 .logger {
@@ -83,3 +85,7 @@ h1 {
 h2 {
     color:blue
 }
+/* 
+.edit-footer {
+    justify-content: flex-end;
+} */

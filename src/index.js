@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initialRender()
 })
 
+
 // -- FORMS --
 // -- NEW TODO --
 document.querySelector('#form').addEventListener('submit', (e) => {
@@ -17,8 +18,8 @@ document.querySelector('#form').addEventListener('submit', (e) => {
     const todo = todoCreation.createTodo(formData)
     const collectTodo = assignCollection(todo)
     todoCreation.pushCollectable(collectTodo)
-    todoCreation.pushToProject(collectTodo)
-    
+    console.log(collectTodo)
+    todoCreation.pushToProject(collectTodo) 
 })
 
 // -- NEW PROJECT --
@@ -34,21 +35,76 @@ document.querySelector('#project-form').addEventListener('submit', (e) => {
 })
 
 document.querySelector('.logger').addEventListener('click', (e) => {
-     console.log(projectCreation.projects)
+    console.log(projectCreation.projects)
 })
 
 document.querySelector(".project").addEventListener("click", function(e) {
-	if(e.target.dataset.action === "delete") {
+	if(e.target.dataset.action === "delete-project") {
 		console.log('hey');
 	}
-});
+})
 
+document.querySelector('.todo-container').addEventListener('click', function(e) {
+    
+    if (e.target.dataset.action === 'edit-todo') {
+       //  console.log(projectCreation.projects.data.stuff)
+       projectCreation.projects.forEach(project => { /// important
+        //    console.log(project.data.stuff) 
+        //    console.log(projectCreation.projects)
+        const todoIndexValue = project.data.stuff.findIndex(item => item.id === e.target.dataset.id)
+        console.log(todoIndexValue)
+        console.log(project.data.stuff)
+       // console.log(project.data.stuff[todoIndexValue].data.markDeleted())    // it works!!!
+        const todoEditID = project.data.stuff[todoIndexValue].id
+        console.log(todoEditID)
+        pubsub.publish('todoEdited', todoEditID)
+
+        //console.log(project.data.stuff[todoIndexValue].data.getProperty('id'))    
+        // projectCreation.projects.data.stuff[0].forEach(project => {
+        //     console.log(project)
+
+            // if (e.target.dataset.id === project.data.getProperty(`id`)) {
+            //     console.log('hey')
+            // }
+         //console.log(project.data.getProperty(`${e.target.dataset.id}`))
+           //Property(`${e.target.dataset.id}`)
+          //  console.log(project.data.stuff)
+       // })
+       // console.log(projectCreation.projects.getProperty('id'))
+      //  pubsub.publish('removeTodo', e.target.dataset.id)
+		//console.log(e.target.dataset.id);
+        })
+    }
+})
+
+document.querySelector('.edit-container').addEventListener('click', function(e) {
+    e.preventDefault()
+    if (e.target.dataset.action === 'save-todo-changes') {
+        const form = document.querySelector('#edit-form')
+        const formData = new FormData(form)
+        console.log(formData.get('update-title'))
+    }
+})
+
+
+const createUUID = () => self.crypto.randomUUID()
+
+
+function sealDefaultProject() {
+    const project = projectFactory('New Project')
+    const collectProject = assignCollection(project)
+    projectCreation.projects.push(Object.seal(collectProject))
+    console.log(projectCreation.projects)
+    //     console.log(collectProject)
+    //    // return Object.seal(project)
+}
 
 const todoCreation = {
     projectTodos: [],
 
     createTodo: formData => {  
         const todo = todoFactory(formData.get('title'), formData.get('desc'))
+        console.log(todo)
         return todo
     },   // create the todo
 
@@ -62,24 +118,24 @@ const todoCreation = {
     }
 }
 
-const createUUID = () => self.crypto.randomUUID()
 
 function assignCollection(object) {
     const collectable = Collection(object, createUUID())
     return collectable
 }   // turn todo/project into object and assign an ID
 
+
 const projectCreation = {
     lastCreatedIndex:  0,
 
     projects: [
-        {
-        data: {
-                title: 'default',
-                stuff: []
-        },
-        id: '55555'
-        }
+        // {
+        // data: {
+        //         title: 'default',
+        //         stuff: []
+        // },
+        // id: '55555'
+        // }
     ],
 
     createProject: projectData => {
@@ -98,6 +154,8 @@ const projectCreation = {
     },
 }
 
+
+sealDefaultProject()
 
 export default todoCreation.projectTodos
 

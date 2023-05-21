@@ -30,9 +30,9 @@ const initialRender = () => {
 
    // pubsub.subscribe('newProject', rendering.clearTodo)
     pubsub.subscribe('newProject', rendering.renderProject)
-    // will render the project title based on pub/sub )
     pubsub.subscribe('todoAdded', rendering.renderTodo)
     pubsub.subscribe('todoAdded', rendering.populateTodo)
+    pubsub.subscribe('todoEdited', rendering.editTodo)
 }
 
 
@@ -76,6 +76,16 @@ const rendering = {
     }
   },
 
+  clearEditTodo: () => {
+    const editTodoContainer = document.querySelector('.edit-container')
+    const editTodo = document.querySelectorAll('.edit-footer')
+    if (editTodoContainer.children.length > 1) {
+      editTodo.forEach(el => {
+        editTodoContainer.removeChild(el)
+      })  
+    }
+  },
+
   renderTodo: projectTodos => {
   rendering.clearTodo() // clear display
    console.log(projectTodos)
@@ -83,9 +93,8 @@ const rendering = {
       const tempTodo = document.querySelector('.todo-temp').content
       tempTodo.children[0].dataset.id = el.id
       const copy = document.importNode(tempTodo, true) 
-      console.log(tempTodo, copy)
+     // console.log(tempTodo, copy)
       document.querySelector('.todo-container').appendChild(copy)
-      
     })
 
     // const ele = document.querySelector('.todo')
@@ -99,14 +108,41 @@ const rendering = {
 
   populateTodo: projectTodos => {
     let ids = ''
-    const getDivs = document.querySelectorAll('.data')
+    const getDivs = document.querySelectorAll('.todo')
     getDivs.forEach(div => { 
-      ids = projectTodos.find(item => item.id === div.dataset.id)
-      const quick = document.querySelector(`.data[data-id='${ids.id}']`)
-      const test = document.createElement('p')
-      quick.appendChild(test)
-      test.textContent = ids.data.title
+     // console.log(div)
+     // console.log(projectTodos) // array
+      ids = projectTodos.find(item => item.id === div.dataset.id) // object
+      // console.log(ids.data.title)
+      // console.log(ids.id)
+
+      const todoTitle = document.querySelector(`.todo[data-id='${ids.id}'] p`)
+      const button = document.querySelector(`.todo[data-id='${ids.id}'] button`)
+      
+      todoTitle.textContent = ids.data.title
+      button.dataset.id = ids.id
+      
+      pubsub.subscribe('removeTodo', rendering.removeTodo)
+     // console.log(todoTitle, button)
+
     })
+  },
+
+  removeTodo: todoID => {
+    console.log(todoID)
+  },
+
+  editTodo: todoEditID => {
+    rendering.clearEditTodo()
+    console.log(todoEditID)
+    const editTemp = document.querySelector('.edit-temp').content
+    const copy = document.importNode(editTemp, true)
+    document.querySelector('.edit-container').prepend(copy)
+    document.querySelector('.update-title').dataset.todoUpdateID = todoEditID
+
+
+   // document.querySelector('.project-title').textContent = newProject.data.title
+
   }
 }
 

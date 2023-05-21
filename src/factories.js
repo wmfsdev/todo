@@ -1,15 +1,54 @@
 
+const crudMethods = (object) => {
+    const setProperty = (property, value) => {
+      object[property] = value;
+    };
+  
+    const getProperty = (property) => object[property];
+  
+    const getObject = () => object;
+  
+    const markDeleted = () => {
+      object.deleted = true;
+    };
+  
+    return { setProperty, getProperty, getObject, markDeleted };
+  };
+
 
 const todoFactory = (title, desc, due, priority) => {
-    return { title, desc }
+
+    const proto = {
+        title: title,
+        desc: desc
+    }
+
+    const crud = crudMethods(proto)
+    return Object.assign(Object.create(proto), crud);
+
+    // const crud = crudMethods(proto)
+    // return Object.assign(proto, crud)
+    // no good, all contained in one object
+    
+   // return { title, desc }
 }
 
-const projectFactory = (title) => {
-    let stuff = []
+
+
+const projectFactory = (title='default') => {
+
+    const proto = {
+    stuff: [],
+    title: title
+    }
     // could I create a public method that allows 
     // us to push to the array so as to keep the
     // array private?
-    return { title, stuff }
+
+    const crud = crudMethods(proto)
+    return Object.assign(Object.create(proto), crud);
+
+    // return { title, stuff }
 }
 
 const Collection = (data, id) => {
@@ -63,3 +102,5 @@ export { todoFactory, projectFactory, Collection }
 //           subscribe
 //       } 
 // }
+
+
