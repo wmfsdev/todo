@@ -4,6 +4,7 @@ import pubsub from './pubsub.js'
 import initialRender from './dom.js'
 
 
+
 document.addEventListener('DOMContentLoaded', () => {
     initialRender()
 })
@@ -131,7 +132,6 @@ const todoUpdates = {
         todo.setProperty('title', formData.get('update-title'))
 
         console.log(projectCreation.projects[todoUpdates.parentProjectIndex].data.stuff[todoUpdates.foundTodoIndex].data.getObject())
-       
     },
 
     setProject: () => {
@@ -143,7 +143,8 @@ const todoCreation = {
    // projectTodos: [],
 
     createTodo: formData => {  
-        const todo = todoFactory(formData.get('title'), formData.get('desc'))
+        const todo = todoFactory(formData.get('title'), formData.get('desc'), formData.get('due'))
+        console.log(formData.get('due'))
         return todo
     },  
 

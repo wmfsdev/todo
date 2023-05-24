@@ -22,6 +22,19 @@
                             
                             <label for="desc">DESCRIPTION</label>
                             <input type="text" name="desc" id="desc" value="todo">
+
+                            <label for="due">DUE</label>
+                            <input type="date" name="due" id="due" value="2023-07-22" 
+                            min="2022-01-01" max="2023-12-31">
+
+                           
+                            <label for="priority-input">PRIORITY</label>
+                            <input type="range" name="priority-input" id="priority-input" 
+                            min="0" max="2"
+                             value="0">
+                            
+                            <p class="priority">Priority: <output id="value">no pressure</p></output> 
+                          
                         </fieldset>
                     
                         <input type="submit" value="NEW TODO"/>
@@ -52,6 +65,7 @@
                     <template class="todo-temp">
                         <div class="todo"> 
                             <p class="todo-title"></p>
+                            <p class="due-date">a</p>
                             <button class="edit-todo" data-action="edit-todo">edit todo</button>
                         </div> 
                     </template>

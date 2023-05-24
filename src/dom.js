@@ -1,42 +1,44 @@
 
 import pubsub from "./pubsub"
+import { format } from 'date-fns'
 
-// const stuff = {
-//     list: [],
-//     render: () => {  
-//     },
-//     addTodo: todo => {
-//         console.log("todo")
-//      // pubsub.publish('todoUpdate', render.list)
-//     }
-// }
 
 const initialRender = () => {
-    // const div = document.createElement('div')
-    // div.classList.add('project-info')
-    // div.textContent = "default project"
-    // project.prepend(div)
-    // const projectTitle = document.querySelector('.project-title')
-    // projectTitle.classList.add('project-title')
-    // project.prepend(projectTitle)
-    // const button = document.createElement('button')
-    // button.classList.add('remove-button')
-    // button.textContent = "remove project"
-    // projectInfo.appendChild(button)
-
     const projectTemp = document.querySelector('.project-temp').content
     const copy = document.importNode(projectTemp, true)
     document.querySelector('.project').prepend(copy)
 
-   pubsub.subscribe('newProject', rendering.clearTodo)
+    pubsub.subscribe('newProject', rendering.clearTodo)
     pubsub.subscribe('newProject', rendering.renderProject)
     pubsub.subscribe('todoAdded', rendering.renderTodo)
     pubsub.subscribe('todoAdded', rendering.populateTodo)
     pubsub.subscribe('todoEdited', rendering.editTodo)
+
+    rendering.renderPriority()
 }
 
-
 const rendering = {
+
+  renderPriority: () => {
+    const value = document.querySelector("#value")
+    const input = document.querySelector("#priority-input")
+      
+    input.addEventListener("input", (e) => {
+      console.log(e.target.value)
+      switch (e.target.value) {
+        case '0':
+          value.textContent = "no pressure";
+          break
+        case '1':
+          value.textContent = "get to it";
+          break
+        case '2':
+          value.textContent = "NOW!"
+          break
+        default: "no pressure"
+      }
+    })
+  },
   
   renderProject: newProject => {
     rendering.clearProject()
@@ -91,37 +93,32 @@ const rendering = {
       projectTodos.data.stuff.forEach(el => {
         const tempTodo = document.querySelector('.todo-temp').content
         tempTodo.children[0].dataset.id = el.id
-      //  console.log(projectTodos.id)
-      // tempTodo.children[0].dataset.projectId = projectTodos.id
         const copy = document.importNode(tempTodo, true) 
         document.querySelector('.todo-container').appendChild(copy)
       })
     },
 
-  // renderTodo: projectTodos => {
-  // rendering.clearTodo() // clear display
-  //  console.log(projectTodos)
-  //   projectTodos.forEach(el => {
-  //     const tempTodo = document.querySelector('.todo-temp').content
-  //     tempTodo.children[0].dataset.id = el.id
-  //     const copy = document.importNode(tempTodo, true) 
-  //    // console.log(tempTodo, copy)
-  //     document.querySelector('.todo-container').appendChild(copy)
-  //   })
-  // },
-
   populateTodo: projectTodos => {
     let ids = ''
+
     const getDivs = document.querySelectorAll('.todo')
     getDivs.forEach(div => { 
       ids = projectTodos.data.stuff.find(item => item.id === div.dataset.id)
-
-      const todoTitle = document.querySelector(`.todo[data-id='${ids.id}'] p`)
-      const button = document.querySelector(`.todo[data-id='${ids.id}'] button`)
       
+      const todoTitle = document.querySelector(`.todo[data-id='${ids.id}'] p.todo-title`)
+      const button = document.querySelector(`.todo[data-id='${ids.id}'] button`)
+      const dueDate = document.querySelector(`.todo[data-id='${ids.id}'] p.due-date`)
+
+      console.log(ids.data.due)
+      const due = new Date(ids.data.due);
+      const formattedDate = format(due, `EE do LLL yyyy`);
+      
+      console.log(formattedDate);
+
       todoTitle.textContent = ids.data.title
       button.dataset.id = ids.id
       button.dataset.projectId = projectTodos.id
+      dueDate.textContent = formattedDate  // ids.data.due
       
       pubsub.subscribe('removeTodo', rendering.removeTodo)
     })
