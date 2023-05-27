@@ -57,7 +57,7 @@
             <div class="project">
                 <template class="project-temp">
                     <div class="project-info">
-                        <h2 class="project-title">default project</h2>
+                        <h2 class="project-title"></h2>
                         <button class="remove-button" data-action="delete-project">remove project</button>
                     </div>
                 </template> 
@@ -66,7 +66,9 @@
                         <div class="todo"> 
                             <p class="todo-title"></p>
                             <p class="due-date">a</p>
+                            <p class="priority"></p>
                             <button class="edit-todo" data-action="edit-todo">edit todo</button>
+                            
                         </div> 
                     </template>
                 </div>
@@ -80,6 +82,7 @@
                                 </fieldset>
                             
                                 <input class="update-title" type="submit" data-action="save-todo-changes" value="SAVE CHANGES"/>
+                                <button class="cancel" data-action="edit-cancel">cancel</button>
                             </form>
                         </div>
                     </template>
