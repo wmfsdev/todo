@@ -21,7 +21,8 @@ const todoFactory = (title, desc, due, priority) => {
     const proto = {
         title: title,
         desc: desc,
-        due: due
+        due: due,
+        priority: priority
     }
 
     const crud = crudMethods(proto)

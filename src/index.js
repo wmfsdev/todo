@@ -1,14 +1,55 @@
 import './style.css';
 import { todoFactory, projectFactory, Collection }  from './factories.js'
 import pubsub from './pubsub.js'
-import initialRender from './dom.js'
+import { store } from './storage.js'
+import { initialRender, subscriptions } from './dom.js'
 
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    initialRender()
+    sealDefaultProject() // generates default project Object to populate an array
+    // on refresh sealDefault won't create a default project and there won't be anything in the 
+    // projectCreation.projects array to render so we need to parse the localStorage first and re-create
+    // the object before we move on to render it
+
+    initialRender(projectCreation.projects[0])
+    subscriptions()
 })
 
+// function store(project, projectIndex) {
+// // console.log(project, projectIndex)
+//     const test = {
+//         id: project.id,
+//         title: project.data.title,
+//         index: projectIndex
+//     }   
+//    // console.log(test)
+//     localStorage[`${project.id}`] = JSON.stringify(test)
+//     pass()
+//   // localStorage.setItem(project.id, JSON.stringify(test))
+// //console.log(id, data)
+//   // console.log(localStorage.getItem(id, data))
+// }
+// function pass() {
+//     let parse = {}
+//     for (let i = 0; i < localStorage.length; i++) { // 
+//         parse = JSON.parse(localStorage.getItem(localStorage.key(i)));  // 
+//       }
+//       console.log(parse)
+//         // const project = projectFactory()
+//         // const assignedProject = assignCollection(project)
+//         // console.log(assignedProject)
+//         // const test = Object.assign(assignedProject, parse)
+//         // console.log(test)
+//         // projectCreation.projects.push(assignedProject)
+//     const project = projectFactory(parse.title)
+//     const assignedProject = assignCollection(project)
+//     console.log(assignedProject.id = parse.id)
+//     projectCreation.projects.push(assignedProject)
+// }
+// function renderStore() {
+//     // 
+// }
 
 // -- FORMS --
 // -- NEW TODO --
@@ -16,7 +57,11 @@ document.querySelector('#form').addEventListener('submit', (e) => {
     e.preventDefault()
     const form = document.querySelector('#form')
     const formData = new FormData(form)
+    // for (const key of formData.keys()) {
+    //     console.log(key);
+    //   }
     const todo = todoCreation.createTodo(formData)
+    console.log(todo)
     const collectTodo = assignCollection(todo)
    // todoCreation.pushCollectable(collectTodo)
   //  console.log(collectTodo)
@@ -30,18 +75,21 @@ document.querySelector('#project-form').addEventListener('submit', (e) => {
     const projectData = new FormData(projectForm)
     const project = projectCreation.createProject(projectData)
     const collectProject = assignCollection(project)
+    //store(collectProject)
    // console.log(collectProject)
     projectCreation.pushToProjectsArray(collectProject)
-    projectCreation.clearProjectTodos()
+    store.storeProject(collectProject, projectCreation.projects.length - 1)
+   // projectCreation.clearProjectTodos()
 })
 
 document.querySelector('.logger').addEventListener('click', (e) => {
-    console.log(projectCreation.projects)
+    
+   console.log(projectCreation.projects)
 })
 
 document.querySelector(".project").addEventListener("click", function(e) {
 	if(e.target.dataset.action === "delete-project") {
-		console.log('hey');
+        projectCreation.removeProject(e.target.dataset.removeId)
 	}
 })
 
@@ -68,7 +116,13 @@ document.querySelector('.todo-container').addEventListener('click', function(e) 
        // console.log(projectCreation.projects.getProperty('id'))
       //  pubsub.publish('removeTodo', e.target.dataset.id)
 		//console.log(e.target.dataset.id);
-        } 
+    } 
+})
+
+document.querySelector('.edit-container').addEventListener('click', function(e) {
+    if (e.target.dataset.action === 'edit-cancel') {
+        pubsub.publish('clearEditButton',)
+    } 
 })
 
 document.querySelector('.edit-container').addEventListener('click', function(e) {
@@ -87,22 +141,22 @@ document.querySelector('.edit-container').addEventListener('click', function(e) 
         todoUpdates.setTodo(formData)
         pubsub.publish('todoAdded', projectCreation.projects[todoUpdates.parentProjectIndex])
         pubsub.publish('clearEditButton',)
-        // find the relevant project and todo using their IDs from button
-        // .set() to new values extracted from FormData
-        // re-render with publish method
     }
 })
-
 
 const createUUID = () => self.crypto.randomUUID()
 
 function sealDefaultProject() {
-    const project = projectFactory('New Project')
-    const collectProject = assignCollection(project)
-    projectCreation.projects.push(Object.seal(collectProject))
-  //  console.log(projectCreation.projects)
-    //     console.log(collectProject)
-    //    // return Object.seal(project)
+    if (localStorage.length === 0) {
+        const project = projectFactory('first project')
+        const collectProject = assignCollection(project)
+        projectCreation.projects.push(Object.seal(collectProject))
+        console.log(projectCreation.projects)
+        store.storeProject(collectProject, projectCreation.projects.length - 1)
+        
+    } else {
+        store.parseProject()
+    }
 }
 
 const todoUpdates = {
@@ -143,8 +197,12 @@ const todoCreation = {
    // projectTodos: [],
 
     createTodo: formData => {  
-        const todo = todoFactory(formData.get('title'), formData.get('desc'), formData.get('due'))
-        console.log(formData.get('due'))
+        const todo = todoFactory(
+            formData.get('title'), 
+            formData.get('desc'), 
+            formData.get('due'), 
+            formData.get('priority-input')
+            )
         return todo
     },  
 
@@ -157,12 +215,11 @@ const todoCreation = {
     pushToProject: collectTodo => {
         projectCreation.projects[projectCreation.lastCreatedIndex].data.stuff.push(collectTodo)
         pubsub.publish('todoAdded', projectCreation.projects[projectCreation.lastCreatedIndex])
-        // specify here which index to push based on project?
     }
 }
 
 
-function assignCollection(object) {
+const assignCollection = (object) => {
     const collectable = Collection(object, createUUID())
     return collectable
 }
@@ -187,23 +244,27 @@ const projectCreation = {
     },
 
     pushToProjectsArray: newProject => {
-        console.log(projectCreation.projects)
+        //  console.log(projectCreation.projects)
         projectCreation.projects.push(newProject)
+        console.log(newProject)
+        //console.log(newProject.data.title)
         projectCreation.lastCreatedIndex = projectCreation.projects.length - 1
         pubsub.publish('newProject', newProject)
     },
 
-    clearProjectTodos: () => {
-        todoCreation.projectTodos = []
-    },
+    removeProject: projectID => {
+        console.log(projectCreation.projects)
+        const projectIndex = projectCreation.projects.findIndex(item => item.id === projectID)
+        projectCreation.projects.splice(projectIndex, 1)
+        pubsub.publish('projectRemoved', projectID)
+        
+        console.log(projectIndex)
+        console.log(projectCreation.projects)
+    }
 }
 
 
-sealDefaultProject()
-
-export default todoCreation.projectTodos
-
-
+export { assignCollection, createUUID, projectCreation }
 
 // let projects = [
 //     {
