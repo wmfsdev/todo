@@ -57,15 +57,13 @@ document.querySelector('#form').addEventListener('submit', (e) => {
     e.preventDefault()
     const form = document.querySelector('#form')
     const formData = new FormData(form)
-    // for (const key of formData.keys()) {
-    //     console.log(key);
-    //   }
     const todo = todoCreation.createTodo(formData)
-    console.log(todo)
+   // console.log(todo)
     const collectTodo = assignCollection(todo)
-   // todoCreation.pushCollectable(collectTodo)
-  //  console.log(collectTodo)
-    todoCreation.pushToProject(collectTodo) 
+    todoCreation.pushToProject(collectTodo)
+    console.log(collectTodo)
+    console.log(projectCreation.projects)
+   // store.storeTodo(collectTodo)
 })
 
 // -- NEW PROJECT --
@@ -79,7 +77,6 @@ document.querySelector('#project-form').addEventListener('submit', (e) => {
    // console.log(collectProject)
     projectCreation.pushToProjectsArray(collectProject)
     store.storeProject(collectProject, projectCreation.projects.length - 1)
-   // projectCreation.clearProjectTodos()
 })
 
 document.querySelector('.logger').addEventListener('click', (e) => {
@@ -151,7 +148,7 @@ function sealDefaultProject() {
         const project = projectFactory('first project')
         const collectProject = assignCollection(project)
         projectCreation.projects.push(Object.seal(collectProject))
-        console.log(projectCreation.projects)
+       // console.log(projectCreation.projects)
         store.storeProject(collectProject, projectCreation.projects.length - 1)
         
     } else {
@@ -246,7 +243,7 @@ const projectCreation = {
     pushToProjectsArray: newProject => {
         //  console.log(projectCreation.projects)
         projectCreation.projects.push(newProject)
-        console.log(newProject)
+      //  console.log(newProject)
         //console.log(newProject.data.title)
         projectCreation.lastCreatedIndex = projectCreation.projects.length - 1
         pubsub.publish('newProject', newProject)

@@ -83,7 +83,7 @@ const rendering = {
     const projectTemp = document.querySelector('.project-temp').content
     const copy = document.importNode(projectTemp, true)
     document.querySelector('.project').prepend(copy)
-    console.log(newProject)
+   // console.log(newProject)
     document.querySelector('.project-title').textContent = newProject.data.title
     document.querySelector('.remove-button').dataset.removeId = newProject.id
     //console.log(newProject.id)
@@ -152,11 +152,11 @@ const rendering = {
       const dueDate = document.querySelector(`.todo[data-id='${ids.id}'] p.due-date`)
       const priority = document.querySelector(`.todo[data-id='${ids.id}'] p.priority`)
 
-      console.log(ids.data.due)
+     // console.log(ids.data.due)
       const due = new Date(ids.data.due);
       const formattedDate = format(due, `EE do LLL yyyy`);
       
-      console.log(formattedDate);
+     // console.log(formattedDate);
 
       todoTitle.textContent = ids.data.title
       button.dataset.id = ids.id
