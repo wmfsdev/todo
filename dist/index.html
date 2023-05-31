@@ -43,17 +43,27 @@
                 <div class="projects">
                     <h1>PROJECTS</h1>
 
-        <form action="" id="project-form">
-            <fieldset>
-                <label for="title">TITLE</label>
-                <input type="text" id="title" name="title" value="project">
-            </fieldset>
-        
-            <input type="submit" value="NEW PROJECT"/>
-        </form>
+                    <form action="" id="project-form">
+                    <fieldset>
+                        <label for="title">TITLE</label>
+                        <input type="text" id="title" name="title" value="project">
+                    </fieldset>
+                
+                    <input type="submit" value="NEW PROJECT"/>
+                    </form>
+                </div>
+
+                <div class="project-picker">
+                    <label for="select">SELECT</label>
+                        <select name="project" id="select">
+                            
+                                <option value="">Choose a Project</option>
+                          
+                        </select>
                 </div>
                 <button class="logger">log</button>
             </div>
+
             <div class="project">
                 <template class="project-temp">
                     <div class="project-info">
@@ -87,7 +97,9 @@
                         </div>
                     </template>
                 </div>
+                
             </div>
+           
             </div>
         </div>
     </div>

@@ -7,7 +7,7 @@ const store = {
     project: {},
 
     storeProject: (project, projectIndex) => {
-
+        console.log(project)
         const storedProject = {
         
             id: project.id,
@@ -20,42 +20,69 @@ const store = {
             // }
         }  
 
-        localStorage[`${project.id}`] = JSON.stringify(storedProject)
+        localStorage[`proj-${project.id}`] = JSON.stringify(storedProject)
             
         // localStorage.setItem(project.id, JSON.stringify(test))
         //  console.log(localStorage.getItem(id, data))
     },
 
-    storeTodo: (todos) => {
-        console.log(todos.data.stuff)
+    storeTodo: (projectObject, projectID) => {
 
-        const storedTodo = {
-            id: project.data.stuff,
-            title: project.data.title,
-            index: index
-        }
-    },
+        console.log(projectObject)
+        console.log(projectID)
+
+        let storedTodo
+
+        projectObject.data.stuff.forEach(todo => { 
+            console.log(todo)
+            storedTodo = {
+                title: todo.data.title,
+                priority: todo.data.priority,
+                desc: todo.data.desc,
+                due: todo.data.due,
+                pid: projectObject.id
+            }
+
+            localStorage[`todo-${todo.id}`] = JSON.stringify(storedTodo)
+         //   console.log(element)
+        });
+
+        const test = todoFactory()
+            
+       },
+
+        // const todo = project.find(project => property.id) 
+        // console.log(todo)
+        // console.log(todo.id)
+        // }
     
     parseProject: () => {
 
         let parse = {}
 
+      //  console.log(localStorage)
+
             for (let i = 0; i < localStorage.length; i++) { // 
-                parse = JSON.parse(localStorage.getItem(localStorage.key(i)));  // 
+
+            // console.log(localStorage.getItem(prefix => prefix.charAt(0) === 'p'))
+            //  console.log((localStorage.getItem(localStorage.key(i).charAt(0) === 'p')))
+
+                if (localStorage.key(i).charAt(0) === 'p') {
+
+                    parse = JSON.parse(localStorage.getItem(localStorage.key(i)));  // 
+                    const project = projectFactory()
+                    const assignedProject = assignCollection(project)
+                //  console.log(assignedProject)
+                    assignedProject.id = parse.id
+                    assignedProject.index = parse.index
+                    assignedProject.data.title = parse.title
+                    projectCreation.projects.push(assignedProject)
+                    projectCreation.projects.sort((a, b) => (a.index > b.index) ?1 : -1)
+                }
             }
             
-        const project = projectFactory()
-        const assignedProject = assignCollection(project)
-      
-        assignedProject.id = parse.id
-        assignedProject.index = parse.index
-        assignedProject.data.title = parse.title
-        // assignedProject.data.__proto__.title = parse.title
-
-        console.log(assignedProject.data.title)
-        projectCreation.projects.push(assignedProject)
-        
-    },
+            console.log(projectCreation.projects) 
+        },
 
     // setProject: () => {
     //     const project = projectFactory()

@@ -26,7 +26,7 @@ const todoFactory = (title, desc, due, priority) => {
     }
 
     const crud = crudMethods(proto)
-    return Object.assign(Object.create(proto), crud);
+    return Object.assign(proto, crud);
 
     // const crud = crudMethods(proto)
     // return Object.assign(proto, crud)
@@ -48,7 +48,9 @@ const projectFactory = (title='default') => {
     // array private?
 
     const crud = crudMethods(proto)
-    return Object.assign(Object.create(proto), crud);
+    return Object.assign(proto, crud);
+
+    //return Object.assign(Object.create(proto), crud);
 
     // return { title, stuff }
 }

@@ -1,30 +1,18 @@
 
+import { projectCreation } from "."
 import pubsub from "./pubsub"
 import { format } from 'date-fns'
 
 
 const initialRender = defaultProject => {
-
+ // console.log(defaultProject)
     rendering.renderProject(defaultProject)
-    
-    // this might well be a replication of the renderProject method?
-    // const projectTemp = document.querySelector('.project-temp').content
-    // const copy = document.importNode(projectTemp, true)
-    // console.log(defaultProject)
-    // document.querySelector('.project').prepend(copy)
-    // document.querySelector('.project-title').textContent = defaultProject.data.title
-    // document.querySelector('.remove-button')
-
-    // pubsub.subscribe('projectRemoved', rendering.clearProject)
-    // pubsub.subscribe('newProject', rendering.clearTodo)
-    // pubsub.subscribe('newProject', rendering.renderProject)
-    // pubsub.subscribe('todoAdded', rendering.renderTodo)
-    // pubsub.subscribe('todoAdded', rendering.populateTodo)
-    // pubsub.subscribe('todoEdited', rendering.editTodo)
+    rendering.renderProjectSelect()
     rendering.renderPriority()
 }
 
 function subscriptions() {
+    pubsub.subscribe('selectProject', rendering.renderProjectSelect)
     pubsub.subscribe('projectRemoved', rendering.clearProject)
     pubsub.subscribe('projectRemoved', rendering.clearTodo)
     pubsub.subscribe('newProject', rendering.clearTodo)
@@ -35,6 +23,32 @@ function subscriptions() {
 }
 
 const rendering = {
+
+  renderProjectSelect: () => {
+    rendering.clearProjectSelect()
+    const select = document.querySelector('#select')
+    
+    projectCreation.projects.forEach(project => {
+      const newOption = new Option(`${project.data.title}`, `${project.id}`)  // , 'title'
+      select.add(newOption, undefined)
+    })
+    // console.log('select')
+    // console.log(select.options)
+    
+  },
+
+  clearProjectSelect: () => {
+    const select = document.querySelector('#select')
+      while (select.options.length > 0) {
+      select.remove(0);
+      }
+
+    // select.removeChild(selectBox.options[0]);
+    // console.log(parent.options)
+    // const child = document.querySelector('.project-info')
+    // parent.removeChild(child)
+    console.log(select)
+  },
 
   prioritySwitch: (priorityStatus, eventTarget) => {
     switch (eventTarget) {
@@ -76,6 +90,7 @@ const rendering = {
   },
   
   renderProject: newProject => {
+    console.log(newProject)
     if (document.querySelector('.project-title') !== null) {
     rendering.clearProject()
     }   // checks to see if a project has already been created - stops render conflict
@@ -83,28 +98,13 @@ const rendering = {
     const projectTemp = document.querySelector('.project-temp').content
     const copy = document.importNode(projectTemp, true)
     document.querySelector('.project').prepend(copy)
-   // console.log(newProject)
+   
     document.querySelector('.project-title').textContent = newProject.data.title
     document.querySelector('.remove-button').dataset.removeId = newProject.id
-    //console.log(newProject.id)
-    
-    //document.querySelector('.remove-button').dataset.projectId = 
-    // console.log(projectTemp)
-    //console.log(copy)
-    // const project = document.querySelector('.project')
-    // const para = document.querySelector('.project-info')
-    // para.textContent = newProject.data.title
-    // project.prepend(para)
-    // const projectInfo = document.querySelector('.project-info')
-    // const button = document.createElement('button')
-    // button.classList.add('remove-button')
-    // button.textContent = "remove project"
-    // button.dataset.id = newProject.id
-    // projectInfo.appendChild(button)
   },
 
   clearProject: () => {
-    const parent = document.querySelector('.project') // this and clearProject same thing
+    const parent = document.querySelector('.project')
     const child = document.querySelector('.project-info')
     parent.removeChild(child)
   },

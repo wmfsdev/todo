@@ -13,43 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // the object before we move on to render it
 
     initialRender(projectCreation.projects[0])
+  //  console.log(projectCreation.projects)
     subscriptions()
 })
 
-// function store(project, projectIndex) {
-// // console.log(project, projectIndex)
-//     const test = {
-//         id: project.id,
-//         title: project.data.title,
-//         index: projectIndex
-//     }   
-//    // console.log(test)
-//     localStorage[`${project.id}`] = JSON.stringify(test)
-//     pass()
-//   // localStorage.setItem(project.id, JSON.stringify(test))
-// //console.log(id, data)
-//   // console.log(localStorage.getItem(id, data))
-// }
-// function pass() {
-//     let parse = {}
-//     for (let i = 0; i < localStorage.length; i++) { // 
-//         parse = JSON.parse(localStorage.getItem(localStorage.key(i)));  // 
-//       }
-//       console.log(parse)
-//         // const project = projectFactory()
-//         // const assignedProject = assignCollection(project)
-//         // console.log(assignedProject)
-//         // const test = Object.assign(assignedProject, parse)
-//         // console.log(test)
-//         // projectCreation.projects.push(assignedProject)
-//     const project = projectFactory(parse.title)
-//     const assignedProject = assignCollection(project)
-//     console.log(assignedProject.id = parse.id)
-//     projectCreation.projects.push(assignedProject)
-// }
-// function renderStore() {
-//     // 
-// }
+document.querySelector('#select').addEventListener('click', (e) => {
+    const selectProject = projectCreation.projects.find(item => item.id === e.target.value)
+    pubsub.publish('newProject', selectProject)
+    pubsub.publish('todoAdded', selectProject)
+
+    console.log(selectProject)
+})
 
 // -- FORMS --
 // -- NEW TODO --
@@ -58,13 +32,40 @@ document.querySelector('#form').addEventListener('submit', (e) => {
     const form = document.querySelector('#form')
     const formData = new FormData(form)
     const todo = todoCreation.createTodo(formData)
-   // console.log(todo)
     const collectTodo = assignCollection(todo)
     todoCreation.pushToProject(collectTodo)
-    console.log(collectTodo)
-    console.log(projectCreation.projects)
-   // store.storeTodo(collectTodo)
+    store.storeTodo(projectCreation.projects[misc.determineProject()], misc.projectId())
 })
+
+
+const misc = {
+
+    projectId: () => { 
+        const test = document.querySelector('.remove-button').dataset.removeId
+        return test
+    },
+
+    determineProject: () => {
+        for (let i = 0; i < projectCreation.projects.length; i++) {
+            if (projectCreation.projects[i].id === misc.projectId()) {
+                return i
+            }
+        }
+    }
+}
+
+// function determineProject() {
+
+//     const projectID = document.querySelector('.remove-button').dataset.removeId
+
+//     for (let i = 0; i < projectCreation.projects.length; i++) {
+//         if (projectCreation.projects[i].id === projectID) {
+//             return i
+//         }
+//     // console.log(document.querySelector('.remove-button').dataset.removeId)
+//     // projectCreation.projects.indexOf(document.querySelector('.remove-button').dataset.removeId)
+//     }
+// }
 
 // -- NEW PROJECT --
 document.querySelector('#project-form').addEventListener('submit', (e) => {
@@ -73,10 +74,9 @@ document.querySelector('#project-form').addEventListener('submit', (e) => {
     const projectData = new FormData(projectForm)
     const project = projectCreation.createProject(projectData)
     const collectProject = assignCollection(project)
-    //store(collectProject)
-   // console.log(collectProject)
     projectCreation.pushToProjectsArray(collectProject)
     store.storeProject(collectProject, projectCreation.projects.length - 1)
+    pubsub.publish('selectProject', )
 })
 
 document.querySelector('.logger').addEventListener('click', (e) => {
@@ -143,6 +143,7 @@ document.querySelector('.edit-container').addEventListener('click', function(e) 
 
 const createUUID = () => self.crypto.randomUUID()
 
+
 function sealDefaultProject() {
     if (localStorage.length === 0) {
         const project = projectFactory('first project')
@@ -150,7 +151,7 @@ function sealDefaultProject() {
         projectCreation.projects.push(Object.seal(collectProject))
        // console.log(projectCreation.projects)
         store.storeProject(collectProject, projectCreation.projects.length - 1)
-        
+        console.log(collectProject)
     } else {
         store.parseProject()
     }
