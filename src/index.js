@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // on refresh sealDefault won't create a default project and there won't be anything in the 
     // projectCreation.projects array to render so we need to parse the localStorage first and re-create
     // the object before we move on to render it
-
     initialRender(projectCreation.projects[0])
-  //  console.log(projectCreation.projects)
     subscriptions()
 })
 
@@ -34,15 +32,15 @@ document.querySelector('#form').addEventListener('submit', (e) => {
     const todo = todoCreation.createTodo(formData)
     const collectTodo = assignCollection(todo)
     todoCreation.pushToProject(collectTodo)
-    store.storeTodo(projectCreation.projects[misc.determineProject()], misc.projectId())
+    store.storeTodo(projectCreation.projects[misc.determineProject()], misc.determineProject(), misc.projectId())
+   console.log(misc.determineProject())
 })
 
 
 const misc = {
 
     projectId: () => { 
-        const test = document.querySelector('.remove-button').dataset.removeId
-        return test
+        return document.querySelector('.remove-button').dataset.removeId
     },
 
     determineProject: () => {
@@ -153,7 +151,11 @@ function sealDefaultProject() {
         store.storeProject(collectProject, projectCreation.projects.length - 1)
         console.log(collectProject)
     } else {
+        console.log('else')
+       // projectCreation.projects = []
+      //  console.log(projectCreation.projects)
         store.parseProject()
+        store.parseTodo()
     }
 }
 

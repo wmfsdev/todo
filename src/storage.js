@@ -7,17 +7,12 @@ const store = {
     project: {},
 
     storeProject: (project, projectIndex) => {
-        console.log(project)
+    //    console.log(project)
         const storedProject = {
         
             id: project.id,
             title: project.data.title,
             index: projectIndex,
-            // todo: {
-            //    // id: project.data.stuff.id,
-            //     stuff: project.data.stuff,
-            //         // index: 
-            // }
         }  
 
         localStorage[`proj-${project.id}`] = JSON.stringify(storedProject)
@@ -26,35 +21,78 @@ const store = {
         //  console.log(localStorage.getItem(id, data))
     },
 
-    storeTodo: (projectObject, projectID) => {
+    storeTodo: (project, projectIndex, projectID) => {
 
-        console.log(projectObject)
+        console.log(project)
+        console.log(projectIndex)
         console.log(projectID)
 
         let storedTodo
 
-        projectObject.data.stuff.forEach(todo => { 
+        project.data.stuff.forEach(todo => { 
             console.log(todo)
             storedTodo = {
                 title: todo.data.title,
                 priority: todo.data.priority,
                 desc: todo.data.desc,
                 due: todo.data.due,
-                pid: projectObject.id
+                pid: project.id,
+                projectIndex: projectIndex,
+                todoIndex: project.data.stuff.indexOf(todo)
+                // 
             }
 
             localStorage[`todo-${todo.id}`] = JSON.stringify(storedTodo)
          //   console.log(element)
-        });
+        });    
+    },
 
-        const test = todoFactory()
-            
-       },
+    parseTodo: () => {
 
-        // const todo = project.find(project => property.id) 
-        // console.log(todo)
-        // console.log(todo.id)
-        // }
+        let parse = {}
+        console.log(localStorage.length)
+
+            for (let i = 0; i < localStorage.length; i++) {
+  
+                if (localStorage.key(i).charAt(0) === 't') {
+                    console.log(`test: ${i}`)
+                   console.log(localStorage.getItem(localStorage.key(i)))
+                 
+
+                    parse = JSON.parse(localStorage.getItem(localStorage.key(i))); 
+                    
+                    console.log(parse)
+
+                    const project = todoFactory()
+                    const assignedProject = assignCollection(project)
+
+                 //   console.log(assignedProject)
+                
+                    assignedProject.id = parse.id
+                    assignedProject.projectIndex = parse.projectIndex // can figure this out
+                    assignedProject.data.priority = parse.priority
+                    assignedProject.data.title = parse.title
+                    assignedProject.data.desc = parse.desc
+                    assignedProject.data.due = parse.due
+                    assignedProject.data.todoIndex = parse.todoIndex
+                    
+                  //  console.log(assignedProject.projectIndex)
+                  //  console.log(projectCreation.projects[assignedProject.index])
+                    console.log(assignedProject.projectIndex)
+                   // console.log(projectCreation.projects)
+                   // console.log(assignedProject.data.todoIndex)
+                    console.log(projectCreation.projects[assignedProject.projectIndex].data.stuff.push(assignedProject))
+   
+//  projectCreation.projects = []
+     //   projectCreation.projects[assignedProject.projectIndex].data.stuff.splice(assignedProject.data.todoIndex, 1, assignedProject)
+
+  //  projectCreation.projects[assignedProject.projectIndex].data.stuff.push(assignedProject)
+  //  projectCreation.projects[assignedProject.projectIndex].data.stuff[assignedProject.data.todoIndex].push(assignedProject)
+ // projectCreation.projects[assignedProject.projectIndex].data.stuff.sort((a, b) => (a.todoIndex > b.todoIndex) ? 1 : -1)
+                    }
+            }
+    },
+
     
     parseProject: () => {
 
@@ -62,26 +100,24 @@ const store = {
 
       //  console.log(localStorage)
 
-            for (let i = 0; i < localStorage.length; i++) { // 
-
-            // console.log(localStorage.getItem(prefix => prefix.charAt(0) === 'p'))
-            //  console.log((localStorage.getItem(localStorage.key(i).charAt(0) === 'p')))
+            for (let i = 0; i < localStorage.length; i++) {
 
                 if (localStorage.key(i).charAt(0) === 'p') {
 
-                    parse = JSON.parse(localStorage.getItem(localStorage.key(i)));  // 
+                    parse = JSON.parse(localStorage.getItem(localStorage.key(i))); 
                     const project = projectFactory()
                     const assignedProject = assignCollection(project)
-                //  console.log(assignedProject)
+               //     console.log(assignedProject)
+
                     assignedProject.id = parse.id
                     assignedProject.index = parse.index
                     assignedProject.data.title = parse.title
                     projectCreation.projects.push(assignedProject)
-                    projectCreation.projects.sort((a, b) => (a.index > b.index) ?1 : -1)
+                    projectCreation.projects.sort((a, b) => (a.index > b.index) ? 1 : -1)
                 }
             }
             
-            console.log(projectCreation.projects) 
+         //   console.log(projectCreation.projects) 
         },
 
     // setProject: () => {
