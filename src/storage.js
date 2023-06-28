@@ -36,7 +36,8 @@ const store = {
                 priority: todo.data.priority,
                 desc: todo.data.desc,
                 due: todo.data.due,
-                pid: project.id,
+                pid: projectID,
+                id: todo.id,
                 projectIndex: projectIndex,
                 todoIndex: project.data.stuff.indexOf(todo)
                 // 
@@ -50,45 +51,50 @@ const store = {
     parseTodo: () => {
 
         let parse = {}
-        console.log(localStorage.length)
+      //  console.log(localStorage.length)
 
             for (let i = 0; i < localStorage.length; i++) {
   
                 if (localStorage.key(i).charAt(0) === 't') {
                     console.log(`test: ${i}`)
-                   console.log(localStorage.getItem(localStorage.key(i)))
+                    console.log(localStorage.getItem(localStorage.key(i)))
                  
 
                     parse = JSON.parse(localStorage.getItem(localStorage.key(i))); 
                     
-                    console.log(parse)
+                 //   console.log(parse)
 
                     const project = todoFactory()
                     const assignedProject = assignCollection(project)
 
-                 //   console.log(assignedProject)
-                
+                    console.log(assignedProject)
+                   
                     assignedProject.id = parse.id
                     assignedProject.projectIndex = parse.projectIndex // can figure this out
+                    
                     assignedProject.data.priority = parse.priority
                     assignedProject.data.title = parse.title
                     assignedProject.data.desc = parse.desc
                     assignedProject.data.due = parse.due
                     assignedProject.data.todoIndex = parse.todoIndex
+
+                    console.log(assignedProject)
                     
                   //  console.log(assignedProject.projectIndex)
                   //  console.log(projectCreation.projects[assignedProject.index])
-                    console.log(assignedProject.projectIndex)
+                   
                    // console.log(projectCreation.projects)
                    // console.log(assignedProject.data.todoIndex)
-                    console.log(projectCreation.projects[assignedProject.projectIndex].data.stuff.push(assignedProject))
+
+                  //  console.log(projectCreation.projects[assignedProject.projectIndex].data.stuff.push(assignedProject))
    
 //  projectCreation.projects = []
      //   projectCreation.projects[assignedProject.projectIndex].data.stuff.splice(assignedProject.data.todoIndex, 1, assignedProject)
 
-  //  projectCreation.projects[assignedProject.projectIndex].data.stuff.push(assignedProject)
+    projectCreation.projects[assignedProject.projectIndex].data.stuff.push(assignedProject)
   //  projectCreation.projects[assignedProject.projectIndex].data.stuff[assignedProject.data.todoIndex].push(assignedProject)
- // projectCreation.projects[assignedProject.projectIndex].data.stuff.sort((a, b) => (a.todoIndex > b.todoIndex) ? 1 : -1)
+  
+  projectCreation.projects[assignedProject.projectIndex].data.stuff.sort((a, b) => (a.data.todoIndex > b.data.todoIndex) ? 1 : -1)
                     }
             }
     },
@@ -103,21 +109,25 @@ const store = {
             for (let i = 0; i < localStorage.length; i++) {
 
                 if (localStorage.key(i).charAt(0) === 'p') {
-
+                    console.log(localStorage.key(i))
                     parse = JSON.parse(localStorage.getItem(localStorage.key(i))); 
                     const project = projectFactory()
                     const assignedProject = assignCollection(project)
-               //     console.log(assignedProject)
+               
+                    console.log(assignedProject)
 
                     assignedProject.id = parse.id
                     assignedProject.index = parse.index
                     assignedProject.data.title = parse.title
+                    console.log(assignedProject)
+                    console.log(projectCreation.projects)
                     projectCreation.projects.push(assignedProject)
                     projectCreation.projects.sort((a, b) => (a.index > b.index) ? 1 : -1)
+                    
                 }
             }
             
-         //   console.log(projectCreation.projects) 
+            console.log(projectCreation.projects) 
         },
 
     // setProject: () => {
@@ -141,6 +151,32 @@ const store = {
     //         // projectCreation.projects.push(assignedProject)
     // },
     
+    removeProject: project => {
+        console.log(project)
+        const projectID = project.id
+        project.data.stuff.forEach(todo => {
+            console.log(todo)
+            store.removeTodo(todo.id)
+        })
+        localStorage.removeItem(`proj-${projectID}`)
+    },
+
+    removeTodo: todoID => {
+        console.log(todoID)
+        localStorage.removeItem(`todo-${todoID}`)
+    },
+
+    
+    updateProject: (projectIndex) => {
+        
+        console.log(projectIndex)
+        for (let i = projectIndex + 1 ; i <= localStorage.length ; i++) {
+            console.log(i)
+            console.log(localStorage.getItem(localStorage.key(i)))
+       
+         }
+    },
+
 
     renderStore: () => {
         // 

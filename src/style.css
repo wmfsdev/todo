@@ -1,65 +1,191 @@
 
 * {
-    box-sizing: content-box;
+    box-sizing: border-box;
 }
 
+html,
 body {
-    height: 100vh;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: rgb(237, 234, 228);
 }
 
-form input {
+fieldset {
+    border: none;
+}
+
+.project-field {
     display: flex;
     flex-direction: column;
 }
 
-form {
-    width: fit-content;
+.todo-field {
+    display: flex;
+    flex-direction: column;
 }
 
+.todo-label,
+.project-label {
+    float: left;
+    margin-bottom: 10px;
+}
+
+.due-label {
+    float: left;
+    margin-bottom: 10px;
+}
+
+.range {
+    width: 170px;
+}
+
+.priority {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+.submit-button {
+    margin-top: 10px;
+}
+
+.submit-project {
+    margin-top: 15px;
+}
+
+.todo-desc {
+    min-height: 100px;
+    max-height: 45px;
+    height: 80px;
+    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+
+}
+
+.todo p {
+    font-size: 0.95rem;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    color: rgb(33, 33, 33);
+   
+}
+
+h3 {
+    font-size: 0.85rem;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color:rgb(234, 255, 249);
+    padding-bottom: 5px;
+}
+    
+
+#due {
+    margin-left: 10px;
+    width: 115px
+}
+
+.edit-label {
+    margin-bottom: 10px;
+    float: left;
+}
+
+.select-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+form {
+    width: fit-content;
+    border: none;   
+}
+
+
 .container {
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
     background-color: aliceblue;
+    border-style: solid;
+    border-width: 3px;
+    border-color: rgb(129, 161, 159);
+    border-top-left-radius : 15px;
 }
 
 .header {
-    height: 100px;
+    border-top-left-radius: 15px;
+    border-right: solid 1px rgb(129, 161, 159);
+    border-color: rgb(129, 161, 159);
     font-size: 4rem;
-    background-color: rgb(194 212 212);
-    padding-left: 10px;
+    color: rgb(110, 138, 136);
+    margin-left: auto;
+    padding-right: 20px;
 }
 
 .project-display {
-    height: 100%;
     display: flex;
-    background-color: rgb(222, 233, 233);
+    flex-grow: 1;
 }
 
 .sidebar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     width: 250px;
-    padding-left: 10px;
-    background-color: rgb(194 212 212);
 }
 
 h1 {
-    margin: 0px;
+    padding-left: 10px;
+    color: rgb(129, 161, 159);
+    margin-bottom: 5px;
+ 
 }
 
 .todo-container {
-    
+   
     padding: 10px;
     display: flex;
-    gap: 10px;
+    gap: 20px;
     flex-wrap: wrap;
 }
 
 .todo {
-    height: 350px;
-    width: 250px;padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 370px;
+    width: 250px;
+    padding: 10px;
     border-radius: 5px;
-    background-color: rgb(179, 156, 130);
+    background-color: rgba(152, 204, 169, 0.897);
+    box-shadow: 5px 5px 15px 0px rgba(149, 149, 150, 0.885);
+    
+    border-bottom: solid 1px rgba(138, 138, 138, 0.872) ;
+    border-right: solid 1px rgba(135, 135, 135, 0.854) ;
+    
+}
+
+.todo-buttons {
+    margin-top: auto;
+    align-self: flex-end
+}
+
+.projects {
+    margin-top: 40px;
+    flex-grow: 1;
 }
 
 .project {
+    background-color: rgb(224, 244, 249);
+    border-top-left-radius: 10px;
+    border-width: 3px;
+    border-style:solid;
+    border-bottom: none;
+    border-right: none;
+    border-color: rgb(129, 161, 159);
     display: flex;
     flex-direction: column;
     padding-left: 10px;
@@ -67,12 +193,43 @@ h1 {
 }
 
 .project-info {
+    flex: 0 1 auto;
+    width: 100%;
     display: flex;
-    padding: 10px;
+    color: rgb(110, 138, 136);
+    justify-content: space-between;
+}
+
+.project-picker {
+    margin-top: 10px;
+    padding-left: 15px;
+    display: flex;
+}
+
+#select {
+    max-width: 125px;
+}
+
+.project-buttons {
+    padding-right: 40px;
+    display: flex;
+   
     align-items: center;
+    margin-left: auto;
 }
 
 .remove-button {
+    color: black;
+    margin-left: auto;
+    height: fit-content
+}
+
+.update-title {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.edit-project {
     color: black;
     margin-left: auto;
     height: fit-content
@@ -83,8 +240,33 @@ h1 {
 }
 
 h2 {
-    color:blue
+    padding-left: 10px;
 }
+
+#edit-form {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+}
+
+.field {
+    display:flex;
+    flex-direction: column;
+}
+
+.edit-container {
+    border-left: solid 1px rgb(129, 161, 159);
+    border-top: solid 3px rgb(129, 161, 159);
+    padding-top: 20px;
+    display: flex;
+    flex: 0 1 0;
+} 
+
+.edit-footer {
+    display: flex;
+    flex-direction: column;
+}
+
 
 /* input {
     color: red
@@ -94,7 +276,3 @@ h2 {
     margin: 0.4rem;
 } */
 
-/* 
-.edit-footer {
-    justify-content: flex-end;
-} */

@@ -5,13 +5,16 @@ import { format } from 'date-fns'
 
 
 const initialRender = defaultProject => {
- // console.log(defaultProject)
+  console.log(defaultProject)
     rendering.renderProject(defaultProject)
+    rendering.renderTodo(defaultProject)
+    rendering.populateTodo(defaultProject)
     rendering.renderProjectSelect()
     rendering.renderPriority()
 }
 
 function subscriptions() {
+ // if (projectCreation.projects.length === 0) {
     pubsub.subscribe('selectProject', rendering.renderProjectSelect)
     pubsub.subscribe('projectRemoved', rendering.clearProject)
     pubsub.subscribe('projectRemoved', rendering.clearTodo)
@@ -20,6 +23,8 @@ function subscriptions() {
     pubsub.subscribe('todoAdded', rendering.renderTodo)
     pubsub.subscribe('todoAdded', rendering.populateTodo)
     pubsub.subscribe('todoEdited', rendering.editTodo)
+    
+ // } else return
 }
 
 const rendering = {
@@ -32,9 +37,6 @@ const rendering = {
       const newOption = new Option(`${project.data.title}`, `${project.id}`)  // , 'title'
       select.add(newOption, undefined)
     })
-    // console.log('select')
-    // console.log(select.options)
-    
   },
 
   clearProjectSelect: () => {
@@ -42,55 +44,42 @@ const rendering = {
       while (select.options.length > 0) {
       select.remove(0);
       }
-
-    // select.removeChild(selectBox.options[0]);
-    // console.log(parent.options)
-    // const child = document.querySelector('.project-info')
-    // parent.removeChild(child)
-    console.log(select)
+   // console.log(select)
   },
 
-  prioritySwitch: (priorityStatus, eventTarget) => {
+  prioritySwitch: (priorityStatus, eventTarget, todoID) => {
+    console.log(todoID)
     switch (eventTarget) {
       case '0':
-        priorityStatus.textContent = "no pressure";
-      //  priorityStatus.style.color = "red"
+        priorityStatus.textContent = " NO PRESSURE";
+        document.querySelector(`.todo[data-id='${todoID}']`).style = "border-top: 15px solid lightseagreen;"
         break
       case '1':
-        priorityStatus.textContent = "get to it";
+        priorityStatus.textContent = " GET TO IT";
+        document.querySelector(`.todo[data-id='${todoID}']`).style = "border-top: 15px solid mediumpurple;"
         break
       case '2':
-        priorityStatus.textContent = "NOW!"
+        priorityStatus.textContent = " NOW!"
+        document.querySelector(`.todo[data-id='${todoID}']`).style = "border-top: 15px solid crimson;"
         break
       default: "no pressure"
     }
   },
+      // 
 
-  renderPriority: () => {
-    const value = document.querySelector("#value")
-    const input = document.querySelector("#priority-input")
-      
-    input.addEventListener("input", (e) => {
-      console.log(e.target.value)
-      rendering.prioritySwitch(value, e.target.value)
-      
-      // switch (e.target.value) {
-      //   case '0':
-      //     value.textContent = "no pressure";
-      //     break
-      //   case '1':
-      //     value.textContent = "get to it";
-      //     break
-      //   case '2':
-      //     value.textContent = "NOW!"
-      //     break
-      //   default: "no pressure"
-      // }
-    })
+  renderPriority: (a = "#form") => {   // v = "#value", i = "#priority-input"
+    console.log(a)
+      const value = document.querySelector(`${a} #value`)
+      const input = document.querySelector(`${a} #priority-input`)
+
+      input.addEventListener("input", (e) => {
+        //  console.log(e.target.value)
+          rendering.prioritySwitch(value, e.target.value)
+      })
   },
   
   renderProject: newProject => {
-    console.log(newProject)
+   // console.log(newProject)
     if (document.querySelector('.project-title') !== null) {
     rendering.clearProject()
     }   // checks to see if a project has already been created - stops render conflict
@@ -100,7 +89,10 @@ const rendering = {
     document.querySelector('.project').prepend(copy)
    
     document.querySelector('.project-title').textContent = newProject.data.title
+   // console.log(newProject.id)
+  //  console.log(newProject.id)
     document.querySelector('.remove-button').dataset.removeId = newProject.id
+    document.querySelector('.edit-project').dataset.editProject = newProject.id
   },
 
   clearProject: () => {
@@ -131,8 +123,10 @@ const rendering = {
 
 
   renderTodo: projectTodos => {
+   console.log(projectTodos)
     rendering.clearTodo()
       projectTodos.data.stuff.forEach(el => {
+       // console.log(el)
         const tempTodo = document.querySelector('.todo-temp').content
         tempTodo.children[0].dataset.id = el.id
         const copy = document.importNode(tempTodo, true) 
@@ -142,13 +136,16 @@ const rendering = {
 
   populateTodo: projectTodos => {
     let ids = ''
-
+  //  console.log(projectTodos.data.stuff)
     const getDivs = document.querySelectorAll('.todo')
     getDivs.forEach(div => { 
       ids = projectTodos.data.stuff.find(item => item.id === div.dataset.id)
       
+      console.log(ids)
       const todoTitle = document.querySelector(`.todo[data-id='${ids.id}'] p.todo-title`)
-      const button = document.querySelector(`.todo[data-id='${ids.id}'] button`)
+      const editButton = document.querySelector(`.todo[data-id='${ids.id}'] button.edit-todo`)
+      const deleteButton = document.querySelector(`.todo[data-id='${ids.id}'] button.del-todo`)
+      const todoDesc = document.querySelector(`.todo[data-id='${ids.id}'] p.todo-desc`)
       const dueDate = document.querySelector(`.todo[data-id='${ids.id}'] p.due-date`)
       const priority = document.querySelector(`.todo[data-id='${ids.id}'] p.priority`)
 
@@ -159,21 +156,32 @@ const rendering = {
      // console.log(formattedDate);
 
       todoTitle.textContent = ids.data.title
-      button.dataset.id = ids.id
-      button.dataset.projectId = projectTodos.id
+      todoDesc.textContent = ids.data.desc
+      editButton.dataset.id = ids.id
+      editButton.dataset.projectId = projectTodos.id
+      deleteButton.dataset.id = ids.id
+      deleteButton.dataset.projectId = projectTodos.id
       dueDate.textContent = formattedDate  // ids.data.due
 
-      rendering.prioritySwitch(priority, ids.data.priority)
+      const todoID = ids.id // todo-id for prioritySwitch
+
+      rendering.prioritySwitch(priority, ids.data.priority, todoID)
       
-      pubsub.subscribe('removeTodo', rendering.removeTodo)
+      pubsub.subscribe('deleteTodo', rendering.deleteTodo)
     })
   },
 
-  removeTodo: todoID => {
-   // console.log(todoID)
+  deleteTodo: todoID => {
+    const editTemp = document.querySelector('.edit-temp').content
+    const copy = document.importNode(editTemp, true)
+    document.querySelector('.edit-container').prepend(copy)
+    document.querySelector('.update-title').dataset.todoUpdateId = todoEdit[0] //todoID
+    document.querySelector('.update-title').dataset.projectId = todoEdit[1] //projectID
+    pubsub.subscribe('clearEditButton', rendering.clearEditTodo)
   },
 
   editTodo: todoEdit => {
+    console.log(todoEdit)
     rendering.clearEditTodo()
     const editTemp = document.querySelector('.edit-temp').content
     const copy = document.importNode(editTemp, true)
@@ -181,6 +189,7 @@ const rendering = {
     document.querySelector('.update-title').dataset.todoUpdateId = todoEdit[0] //todoID
     document.querySelector('.update-title').dataset.projectId = todoEdit[1] //projectID
     pubsub.subscribe('clearEditButton', rendering.clearEditTodo)
+    pubsub.subscribe('prioritySlider', rendering.renderPriority)
   }
 }
 

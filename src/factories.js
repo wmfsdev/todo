@@ -55,10 +55,11 @@ const projectFactory = (title='default') => {
     // return { title, stuff }
 }
 
-const Collection = (data, id) => {
+const Collection = (data, id, index) => {
     return {
         data,
         id,
+        index
     }
 }
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo</title>
+    <title>TADA</title>
 </head>
 <body>
 
@@ -14,95 +14,127 @@
             <div class="sidebar">
                 
                 <div class="todos">
-                    <h1>TODOs</h1>
+                    <h1>TODO</h1>
                     <form action="" id="form">
-                        <fieldset>
-                            <label for="title">TITLE</label>
+                        <fieldset class="todo-field">
+                            <label class="todo-label" for="title">TITLE
                             <input type="text" id="title" name="title" value="this">
+                            </label>
                             
-                            <label for="desc">DESCRIPTION</label>
-                            <input type="text" name="desc" id="desc" value="todo">
+                            <label class="todo-label" for="desc">DESCRIPTION
+                            <textarea name="desc" id="desc" rows="5" value="todo"></textarea>
+                            </label>
 
-                            <label for="due">DUE</label>
+                            <label class="due-label" for="due">DUE
+                               
                             <input type="date" name="due" id="due" value="2023-07-22" 
                             min="2022-01-01" max="2023-12-31">
+                            </label>
 
-                           
-                            <label for="priority-input">PRIORITY</label>
-                            <input type="range" name="priority-input" id="priority-input" 
+                           <p class="priority">PRIORITY: <output id="value"> No Pressure</p></output> 
+                            <label class="todo-label" for="priority-input">
+
+                            <input class="range" type="range" name="priority-input" id="priority-input" 
                             min="0" max="2"
                              value="0">
-                            
-                            <p class="priority">Priority: <output id="value">no pressure</p></output> 
-                          
-                        </fieldset>
-                    
-                        <input type="submit" value="NEW TODO"/>
+                            </label>
+                
+                        <input class="submit-button" type="submit" value="NEW TODO"/>
+                     </fieldset>
                     </form>
                 </div>
                 <div class="projects">
-                    <h1>PROJECTS</h1>
+                    <h1>PROJECT</h1>
 
                     <form action="" id="project-form">
-                    <fieldset>
-                        <label for="title">TITLE</label>
-                        <input type="text" id="title" name="title" value="project">
-                    </fieldset>
-                
-                    <input type="submit" value="NEW PROJECT"/>
+                        <fieldset class="project-field">
+                            <label class="project-label" for="title">TITLE
+                            <input type="text" id="title" name="title" value="project">
+                            </label>
+                        
+                            <input class="submit-project" type="submit" value="NEW PROJECT"/>
+                        </fieldset>
                     </form>
-                </div>
 
-                <div class="project-picker">
-                    <label for="select">SELECT</label>
+                    <div class="project-picker">
+                        <label class="select-label" for="select">SELECT
                         <select name="project" id="select">
-                            
-                                <option value="">Choose a Project</option>
-                          
+                        </label>
+                            <option value="">Choose a Project</option>
                         </select>
+                    </div>
+                    <!-- <button class="logger">log</button> -->
                 </div>
-                <button class="logger">log</button>
             </div>
 
             <div class="project">
                 <template class="project-temp">
                     <div class="project-info">
                         <h2 class="project-title"></h2>
-                        <button class="remove-button" data-action="delete-project">remove project</button>
+                        <div class="project-buttons">
+                            <button class="edit-project" data-action="edit-project">EDIT</button>
+                            <button class="remove-button" data-action="delete-project">DELETE</button>
+                        </div>
                     </div>
                 </template> 
                 <div class="todo-container">
                     <template class="todo-temp">
                         <div class="todo"> 
-                            <p class="todo-title"></p>
-                            <p class="due-date">a</p>
-                            <p class="priority"></p>
-                            <button class="edit-todo" data-action="edit-todo">edit todo</button>
-                            
+                                <h3>TITLE</h3>
+                                <p class="todo-title"></p>
+                                <h3>DESCRIPTION</h3>
+                                <p class="todo-desc"></p>
+                                <h3>DUE</h3>
+                                <p class="due-date"></p>
+                                <h3>PRIORITY</h3>
+                                <p class="priority"></p>
+                            <div class="todo-buttons">
+                                <button class="edit-todo" data-action="edit-todo">EDIT</button>
+                                <button class="del-todo" data-action="del-todo">DELETE</button>
+                           </div>
                         </div> 
                     </template>
                 </div>
-                <div class="edit-container">
+               
+                
+            </div>
+            <div class="edit-container">
                     <template class="edit-temp">
                         <div class="edit-footer">
                             <form action="" id="edit-form">
-                                <fieldset>
-                                    <label for="update-title">NEW TITLE</label>
+                                <fieldset class="field">
+                                    <label class="edit-label" for="update-title">TITLE
                                     <input type="text" id="update-title" name="update-title" value="enter new title">
+                                    </label>
+
+                                    <label class="todo-label" for="desc">DESCRIPTION
+                                    <textarea name="update-desc" id="update-desc" rows="5" value="todo"></textarea>
+                                    </label>
+
+                                    <label class="edit-label" for="due">DUE
+                                    <input type="date" name="due" id="due" value="2023-07-22" 
+                                    min="2022-01-01" max="2023-12-31">
+                                    </label>
+
+                                    <p class="priority">PRIORITY: <output id="value">No pressure</p></output> 
+
+                                    <label class="edit-label" for="priority-input">
+                                    <input class="range" type="range" name="priority-input" id="priority-input" 
+                                    min="0" max="2" value="0">
+                                    </label>
+
+                                    <button class="update-title" data-action="save-todo-changes">save</button>
+                                    <button class="cancel" data-action="edit-cancel">cancel</button>
                                 </fieldset>
-                            
-                                <input class="update-title" type="submit" data-action="save-todo-changes" value="SAVE CHANGES"/>
-                                <button class="cancel" data-action="edit-cancel">cancel</button>
                             </form>
                         </div>
                     </template>
                 </div>
-                
-            </div>
-           
             </div>
         </div>
     </div>
+
+
    
 </body>
 <script src="main.js"></script>
