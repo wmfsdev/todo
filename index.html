@@ -18,7 +18,7 @@
                     <form action="" id="form">
                         <fieldset class="todo-field">
                             <label class="todo-label" for="title">TITLE
-                            <input type="text" id="title" name="title" value="this">
+                            <input type="text" id="title" name="title" value="">
                             </label>
                             
                             <label class="todo-label" for="desc">DESCRIPTION
@@ -28,10 +28,10 @@
                             <label class="due-label" for="due">DUE
                                
                             <input type="date" name="due" id="due" value="2023-07-22" 
-                            min="2022-01-01" max="2023-12-31">
+                            min="2020-01-01" max="2026-12-31">
                             </label>
 
-                           <p class="priority">PRIORITY: <output id="value"> No Pressure</p></output> 
+                           <p class="priority">PRIORITY: <br><output id="value"> NO PRESSURE</p></output> 
                             <label class="todo-label" for="priority-input">
 
                             <input class="range" type="range" name="priority-input" id="priority-input" 
@@ -49,7 +49,7 @@
                     <form action="" id="project-form">
                         <fieldset class="project-field">
                             <label class="project-label" for="title">TITLE
-                            <input type="text" id="title" name="title" value="project">
+                            <input type="text" id="title" name="title" value="">
                             </label>
                         
                             <input class="submit-project" type="submit" value="NEW PROJECT"/>
@@ -104,27 +104,27 @@
                             <form action="" id="edit-form">
                                 <fieldset class="field">
                                     <label class="edit-label" for="update-title">TITLE
-                                    <input type="text" id="update-title" name="update-title" value="enter new title">
+                                    <input type="text" id="update-title" name="update-title" value="enter new title...">
                                     </label>
 
                                     <label class="todo-label" for="desc">DESCRIPTION
-                                    <textarea name="update-desc" id="update-desc" rows="5" value="todo"></textarea>
+                                    <textarea name="update-desc" id="update-desc" rows="5" value="todo">enter new description...</textarea>
                                     </label>
 
                                     <label class="edit-label" for="due">DUE
                                     <input type="date" name="due" id="due" value="2023-07-22" 
-                                    min="2022-01-01" max="2023-12-31">
+                                    min="2020-01-01" max="2026-12-31">
                                     </label>
 
-                                    <p class="priority">PRIORITY: <output id="value">No pressure</p></output> 
+                                    <p class="priority">PRIORITY: <br><output id="value">NO PRESSURE</p></output> 
 
                                     <label class="edit-label" for="priority-input">
                                     <input class="range" type="range" name="priority-input" id="priority-input" 
                                     min="0" max="2" value="0">
                                     </label>
 
-                                    <button class="update-title" data-action="save-todo-changes">save</button>
-                                    <button class="cancel" data-action="edit-cancel">cancel</button>
+                                    <button class="update-title" data-action="save-todo-changes">SAVE</button>
+                                    <button class="cancel" data-action="edit-cancel">CANCEL</button>
                                 </fieldset>
                             </form>
                         </div>
