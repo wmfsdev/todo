@@ -57,9 +57,9 @@ fieldset {
     width: 170px;
 }
 
-.priority {
-    margin-top: 10px;
-    margin-bottom: 10px;
+.todo .priority {
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 button {
@@ -75,7 +75,7 @@ button {
 }
 
 .todo-desc {
-    min-height: 110px;
+    min-height: 115px;
     max-height: 45px;
     height: 80px;
     overflow: scroll;
@@ -85,15 +85,27 @@ button {
 }
 
 .todo p {
-    font-size: 0.95rem;
+    font-size: 1rem;
     margin-top: 0px;
-    margin-bottom: 15px;
-    margin-left: 10px;
+    margin-bottom: 8px;
+    margin-left: 8px;
     color: rgb(33, 33, 33);
 }
 
+.todo-buttons button {
+    margin-top: 33px;
+} 
+
+.todo-buttons .del-todo {
+    margin-right: -5px;
+}
+
+.todo-title {
+    min-height: 18px;
+}
+
 h3 {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     margin-top: 0px;
     margin-bottom: 0px;
     color:rgb(234, 255, 249);
@@ -133,6 +145,7 @@ form {
 }
 
 .header {
+    text-shadow: 2.5px 2.5px rgba(166, 212, 218, 0.96);
     border-top-left-radius: 15px;
     border-right: solid 1px rgb(129, 161, 159);
     border-color: rgb(129, 161, 159);
@@ -155,6 +168,7 @@ form {
 }
 
 h1 {
+    text-shadow: 1.5px 1.5px rgba(166, 212, 218, 0.96);
     padding-left: 10px;
     color: rgb(129, 161, 159);
     margin-bottom: 5px;

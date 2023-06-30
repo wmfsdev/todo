@@ -47,14 +47,17 @@ const rendering = {
       case '0':
         priorityStatus.textContent = " NO PRESSURE";
         document.querySelector(`.todo[data-id='${todoID}']`).style = "border-top: 15px solid lightseagreen;"
+        document.querySelector(`.todo[data-id='${todoID}'] .priority`).style = "color: rgb(26, 143, 160, 1); font-weight: bold;"
         break
       case '1':
         priorityStatus.textContent = " GET TO IT";
         document.querySelector(`.todo[data-id='${todoID}']`).style = "border-top: 15px solid mediumpurple;"
+        document.querySelector(`.todo[data-id='${todoID}'] .priority`).style = "color: rgb(115, 86, 176, 1); font-weight: bold;"
         break
       case '2':
         priorityStatus.textContent = " NOW!"
         document.querySelector(`.todo[data-id='${todoID}']`).style = "border-top: 15px solid crimson;"
+        document.querySelector(`.todo[data-id='${todoID}'] .priority`).style = "color: rgb(184, 19, 50, 1); font-weight: bold;"
         break
       default: "no pressure"
     }
