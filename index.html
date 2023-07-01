@@ -1,1 +1,126 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TADA</title><script defer="defer" src="index.bundle.js"></script></head><body><div class="container"><div class="header">TADA!</div><div class="project-display"><div class="sidebar"><div class="todos"><h1>TODO</h1><form action="" id="form"><fieldset class="todo-field"><label class="todo-label" for="title">TITLE <input id="title" name="title" value=""></label> <label class="todo-label" for="desc">DESCRIPTION <textarea name="desc" id="desc" rows="5" value="todo"></textarea></label> <label class="due-label" for="due">DUE <input type="date" name="due" id="due" value="2023-07-22" min="2020-01-01" max="2026-12-31"></label><p class="priority">PRIORITY:<br><output id="value">NO PRESSURE</output></p><label class="todo-label" for="priority-input"><input class="range" type="range" name="priority-input" id="priority-input" min="0" max="2" value="0"></label> <input class="submit-button" type="submit" value="NEW TODO"/></fieldset></form></div><div class="projects"><h1>PROJECT</h1><form action="" id="project-form"><fieldset class="project-field"><label class="project-label" for="title">TITLE <input id="title" name="title" value=""></label> <input class="submit-project" type="submit" value="NEW PROJECT"/></fieldset></form><div class="project-picker"><label class="select-label" for="select">SELECT <select name="project" id="select"></select></label><option value="">Choose a Project</option></div></div></div><div class="project"><template class="project-temp"><div class="project-info"><h2 class="project-title"></h2><div class="project-buttons"><button class="remove-button" data-action="delete-project">DELETE</button></div></div></template><div class="todo-container"><template class="todo-temp"><div class="todo"><h3>TITLE</h3><p class="todo-title"></p><h3>DESCRIPTION</h3><p class="todo-desc"></p><h3>DUE</h3><p class="due-date"></p><h3>PRIORITY</h3><p class="priority"></p><div class="todo-buttons"><button class="edit-todo" data-action="edit-todo">EDIT</button> <button class="del-todo" data-action="del-todo">DELETE</button></div></div></template></div></div><div class="edit-container"><template class="edit-temp"><div class="edit-footer"><form action="" id="edit-form"><fieldset class="field"><label class="edit-label" for="update-title">TITLE <input id="update-title" name="update-title" value="enter new title..."></label> <label class="todo-label" for="desc">DESCRIPTION <textarea name="update-desc" id="update-desc" rows="5" value="todo">enter new description...</textarea></label> <label class="edit-label" for="due">DUE <input type="date" name="due" id="due" value="2023-07-22" min="2020-01-01" max="2026-12-31"></label><p class="priority">PRIORITY:<br><output id="value">NO PRESSURE</output></p><label class="edit-label" for="priority-input"><input class="range" type="range" name="priority-input" id="priority-input" min="0" max="2" value="0"></label> <button class="update-title" data-action="save-todo-changes">SAVE</button> <button class="cancel" data-action="edit-cancel">CANCEL</button></fieldset></form></div></template></div></div></div></body></html>
+<!doctype html><html><head><meta charset="utf-8"><title>Webpack App</title><meta name="viewport" content="width=device-width,initial-scale=1"><script defer="defer" src="index.bundle.js"></script></head><body> <div class="container">
+    <div class="header">TADA!</div>
+    <div class="project-display">
+        <div class="sidebar">
+            
+            <div class="todos">
+                <h1>TODO</h1>
+                <form action="" id="form">
+                    <fieldset class="todo-field">
+                        <label class="todo-label" for="title">TITLE
+                        <input type="text" id="title" name="title" value="">
+                        </label>
+                        
+                        <label class="todo-label" for="desc">DESCRIPTION
+                        <textarea name="desc" id="desc" rows="5" value="todo"></textarea>
+                        </label>
+
+                        <label class="due-label" for="due">DUE
+                           
+                        <input type="date" name="due" id="due" value="2023-07-22" 
+                        min="2020-01-01" max="2026-12-31">
+                        </label>
+
+                       <p class="priority">PRIORITY: <br><output id="value"> NO PRESSURE</p></output> 
+                        <label class="todo-label" for="priority-input">
+
+                        <input class="range" type="range" name="priority-input" id="priority-input" 
+                        min="0" max="2"
+                         value="0">
+                        </label>
+            
+                    <input class="submit-button" type="submit" value="NEW TODO"/>
+                 </fieldset>
+                </form>
+            </div>
+            <div class="projects">
+                <h1>PROJECT</h1>
+
+                <form action="" id="project-form">
+                    <fieldset class="project-field">
+                        <label class="project-label" for="title">TITLE
+                        <input type="text" id="title" name="title" value="">
+                        </label>
+                    
+                        <input class="submit-project" type="submit" value="NEW PROJECT"/>
+                    </fieldset>
+                </form>
+
+                <div class="project-picker">
+                    <label class="select-label" for="select">SELECT
+                    <select name="project" id="select">
+                    </label>
+                        <option value="">Choose a Project</option>
+                    </select>
+                </div>
+                <!-- <button class="logger">log</button> -->
+            </div>
+        </div>
+
+        <div class="project">
+            <template class="project-temp">
+                <div class="project-info">
+                    <h2 class="project-title"></h2>
+                    <div class="project-buttons">
+                        <!-- <button class="edit-project" data-action="edit-project">EDIT</button> -->
+                        <button class="remove-button" data-action="delete-project">DELETE</button>
+                    </div>
+                </div>
+            </template> 
+            <div class="todo-container">
+                <template class="todo-temp">
+                    <div class="todo"> 
+                            <h3>TITLE</h3>
+                            <p class="todo-title"></p>
+                            <h3>DESCRIPTION</h3>
+                            <p class="todo-desc"></p>
+                            <h3>DUE</h3>
+                            <p class="due-date"></p>
+                            <h3>PRIORITY</h3>
+                            <p class="priority"></p>
+                        <div class="todo-buttons">
+                            <button class="edit-todo" data-action="edit-todo">EDIT</button>
+                            <button class="del-todo" data-action="del-todo">DELETE</button>
+                       </div>
+                    </div> 
+                </template>
+            </div>
+           
+            
+        </div>
+        <div class="edit-container">
+                <template class="edit-temp">
+                    <div class="edit-footer">
+                        <form action="" id="edit-form">
+                            <fieldset class="field">
+                                <label class="edit-label" for="update-title">TITLE
+                                <input type="text" id="update-title" name="update-title" value="enter new title...">
+                                </label>
+
+                                <label class="todo-label" for="desc">DESCRIPTION
+                                <textarea name="update-desc" id="update-desc" rows="5" value="todo">enter new description...</textarea>
+                                </label>
+
+                                <label class="edit-label" for="due">DUE
+                                <input type="date" name="due" id="due" value="2023-07-22" 
+                                min="2020-01-01" max="2026-12-31">
+                                </label>
+
+                                <p class="priority">PRIORITY: <br><output id="value">NO PRESSURE</p></output> 
+
+                                <label class="edit-label" for="priority-input">
+                                <input class="range" type="range" name="priority-input" id="priority-input" 
+                                min="0" max="2" value="0">
+                                </label>
+
+                                <button class="update-title" data-action="save-todo-changes">SAVE</button>
+                                <button class="cancel" data-action="edit-cancel">CANCEL</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+</body></html>
